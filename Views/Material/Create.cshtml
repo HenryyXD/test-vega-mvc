@@ -1,0 +1,89 @@
+@model TestVegaMVC.Models.Material
+
+@{
+    ViewData["Title"] = "Criar Material";
+}
+
+<div class="position-relative">
+    <a asp-action="Index">
+        <span class="material-symbols-outlined back-icon fs-3">
+            arrow_back
+        </span>
+    </a>
+    <h1>Criar</h1>
+</div>
+
+<h4>Material</h4>
+<hr />
+<div class="row">
+    <div class="col-md-12">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="IdSupplier" class="control-label"></label>
+                <select id="supplierSelect" asp-for="IdSupplier" class ="form-control" asp-items="ViewBag.IdSupplier" required></select>
+            </div>
+            <div id="qrcode-container"></div>
+            <div class="form-group">
+                <label asp-for="Code" class="control-label"></label>
+                <input asp-for="Code" class="form-control" />
+                <span asp-validation-for="Code" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FiscalCode" class="control-label"></label>
+                <input asp-for="FiscalCode" class="form-control" />
+                <span asp-validation-for="FiscalCode" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Specie" class="control-label"></label>
+                <input asp-for="Specie" class="form-control" />
+                <span asp-validation-for="Specie" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CreatedBy" class="control-label"></label>
+                <input asp-for="CreatedBy" class="form-control" />
+                <span asp-validation-for="CreatedBy" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Criar" class="btn btn-primary my-3" />
+            </div>
+        </form>
+    </div>
+</div>
+
+@section scripts {
+    <script>
+        $(document).ready(_ => {
+            showSupplierQrCode($('#supplierSelect').val());
+        });
+        $('#supplierSelect').change(_ => {
+            showSupplierQrCode($('#supplierSelect').val()); 
+        });
+        
+        function showSupplierQrCode(supplierId) {
+            if(supplierId === undefined) return;
+            fetch(`/Supplier/JsonById/${supplierId}`)
+            .then(response => response.json())
+            .then(data => {
+                var qrCodeReplaced = data.qrCode
+                                    .replace('%CNPJ%', data.cnpj)
+                                    .replace('%CEP%', data.cep)
+                                    .replace('%DATACADASTRO%', new Date(data.createdAt).toLocaleDateString('pt-BR'));
+                $('#qrcode-container').text(qrCodeReplaced);
+            })
+            .catch(error => {
+                console.error(error);
+            });
+        }
+    </script>
+}

@@ -1,0 +1,46 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem rgb(159, 197, 255), 0 0 0 0.25rem #258cfb;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+table {
+  font-size: 13px;
+}
+
+.align-icon {
+  vertical-align: middle;
+  line-height: 64px;
+}
+
+.back-icon {
+  position: absolute;
+  left: -2.7rem;
+  top: 0.8rem;
+}
+
+#myDataTable_wrapper > div:nth-child(1) > div > div > div.dtsb-group > div.dtsb-criteria select {
+  background-color: white;
+  color: black;
+}
+
+.dtsb-button {
+  color: black;
+} 
+
+.paginate_button > a {
+  color: black !important;
+}
